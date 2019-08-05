@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+
+
+
+
+
+
+{% block contents %}
+    
+    <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button><br><br>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{%url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Brand
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        {% for bfc in brand_for_categorys.all %}
+                        <p><a class="dropdown-item" href="{%url 'choice' bfc.id %}">{{bfc.brandname}}</a></p>
+                         {% endfor %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{%url 'home' %}">전체 상품 보기</a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{%url 'upload_file' %}"><span class="glyphicon glyphicon-gift"
+                          aria-hidden="true"></span> Register</a>
+              </li>
+              </ul>
+
+            </div>
+          </nav>
+
+    <!--컨텐츠 block사이에 입력하면 됩니다.-->
+
+    선택된 브랜드: {{selectedcategory.brand}}
+    <br>
+
+    <select id="sort-select" onchange="location = this.value;">
+      <option class="sort" value="/">정렬방식</option>
+      <option class="sort-date" value="?sort=date">최신순</option>
+      <option class="sort-lowprice" value="?sort=lowprice">낮은가격순</option>
+      <option class="sort-highprice" value="?sort=highprice">높은가격순</option>
+    </select>
+
+    <div class="card-group">
+        {% for u in posts %}
+            <div class="card">
+                <img src="{{u.productimg.url}}" height="300" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">{{u.pbrand}}</h5>
+                    <h5 class="card-title">{{u.pitem}}</h5>
+                    <p class="card-text">{{u.lowerlimit}}</p>
+                    <a href="{%url 'detail' u.id %}" class="btn btn-primary stretched-link">Go somewhere</a>
+                </div>
+            </div>
+        {%endfor%}
+    </div>
+
+    <div class="container">
+
+        {% if posts.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{posts.previous_page_number}}">Prev</a>
+        {% endif %}
+    
+        <span>{{posts.number}}</span>
+        <span> of</span>
+        <span> {{posts.paginator.num_pages}}</span>
+    
+        {%if posts.has_next%}
+        <a href="?page={{posts.next_page_number}}">Next</a>
+        <a href="?page={{posts.paginator.num_pages}}">Last</a>
+        {% endif %}
+    </div>
+
+    {%endblock%}
+
+
+

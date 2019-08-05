@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+마이페이지
+{% endblock %}
+
+
+{% block contents %}
+
+
+내가올린상품
+{% for u in ufl.all %}
+<h1>{{u.pbrand}}</h1>
+<h2>{{u.pitem}}</h2>
+<h3>{{u.lowerlimit}}</h3>
+<img src="{{u.file.url}}"><br>
+<img src="{{u.productimg.url}}"><br><br><br><br>
+{%endfor%}
+
+    <!--컨텐츠 block사이에 입력하면 됩니다.-->
+
+{%endblock%}
